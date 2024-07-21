@@ -1,35 +1,59 @@
 // src/pages/CreateEvent.js
 
-import React, { useState } from 'react';
+import axios from "axios";
+import React, { useState } from "react";
 
 export const CreateEvent = () => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [location, setLocation] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [startTime, setStartTime] = useState('');
-  const [category, setCategory] = useState('');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [location, setLocation] = useState("");
+  const [date, setStartDate] = useState("");
+  const [time, setStartTime] = useState("");
+  const [category, setCategory] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const eventData = {
       title,
       description,
       location,
-      startDate,
-      startTime,
+      date,
+      time,
       category,
     };
     console.log(eventData);
-    // Handle form submission, e.g., send data to the backend
+    try {
+      const token = localStorage.getItem("jwtToken");
+      if (!token) {
+        throw new Error("Token not found");
+      }
+      console.log(token)
+      const res = await axios.post(
+        "http://localhost:3001/events",
+        eventData,
+        {
+          headers: {
+            "Authorization": `Bearer ${token.trim()}`,
+          },
+        }
+      );
+      console.log(res.data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <form className="bg-white p-8 rounded shadow-md w-full max-w-md" onSubmit={handleSubmit}>
+      <form
+        className="bg-white p-8 rounded shadow-md w-full max-w-md"
+        onSubmit={handleSubmit}
+      >
         <h2 className="text-2xl font-bold mb-6 text-center">Create Event</h2>
         <div className="mb-4">
-          <label className="block text-gray-700 mb-2" htmlFor="title">Title</label>
+          <label className="block text-gray-700 mb-2" htmlFor="title">
+            Title
+          </label>
           <input
             className="w-full p-2 border rounded"
             type="text"
@@ -40,7 +64,9 @@ export const CreateEvent = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 mb-2" htmlFor="description">Description</label>
+          <label className="block text-gray-700 mb-2" htmlFor="description">
+            Description
+          </label>
           <textarea
             className="w-full p-2 border rounded"
             id="description"
@@ -50,7 +76,9 @@ export const CreateEvent = () => {
           ></textarea>
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 mb-2" htmlFor="location">Location</label>
+          <label className="block text-gray-700 mb-2" htmlFor="location">
+            Location
+          </label>
           <input
             className="w-full p-2 border rounded"
             type="text"
@@ -61,29 +89,35 @@ export const CreateEvent = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 mb-2" htmlFor="startDate">Start Date</label>
+          <label className="block text-gray-700 mb-2" htmlFor="date">
+            Start Date
+          </label>
           <input
             className="w-full p-2 border rounded"
             type="date"
-            id="startDate"
-            value={startDate}
+            id="date"
+            value={date}
             onChange={(e) => setStartDate(e.target.value)}
             required
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 mb-2" htmlFor="startTime">Start Time</label>
+          <label className="block text-gray-700 mb-2" htmlFor="time">
+            Start Time
+          </label>
           <input
             className="w-full p-2 border rounded"
             type="time"
-            id="startTime"
-            value={startTime}
+            id="time"
+            value={time}
             onChange={(e) => setStartTime(e.target.value)}
             required
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 mb-2" htmlFor="category">Category</label>
+          <label className="block text-gray-700 mb-2" htmlFor="category">
+            Category
+          </label>
           <input
             className="w-full p-2 border rounded"
             type="text"
@@ -103,6 +137,3 @@ export const CreateEvent = () => {
     </div>
   );
 };
-
-
-

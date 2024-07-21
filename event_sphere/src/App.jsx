@@ -6,6 +6,10 @@ import { Home } from "./pages/Home";
 import { Signup } from "./pages/Signup";
 import { Signin } from "./pages/Signin";
 import { CreateEvent } from "./pages/CreateEvent";
+import { CreateTicket } from "./pages/CreateTicket";
+import { OrganizeEvents } from "./pages/OrganizeEvents";
+import { ShowEventDetails } from "./pages/ShowEventDetails";
+import { PlaceOrder } from "./pages/PlaceOrder";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -18,6 +22,10 @@ function App() {
           <Route path="/signin" element={<Signin />} />
           <Route path="/home" element={<Home />} />
           <Route path="/create" element={<CreateEvent />} />
+          <Route path="/organize" element={<OrganizeEvents />} />
+          <Route path="/eventDetails/:eid" element={<ShowEventDetails />} />
+          <Route path="/createTicket/:eventId" element={<CreateTicket />} />
+          <Route path="/placeOrder/:ticketId" element={<PlaceOrder />} />
         </Routes>
       </BrowserRouter>
     </>
