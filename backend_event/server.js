@@ -7,7 +7,8 @@ const Event = require('./models/Event');
 const Ticket = require('./models/Ticket');
 const Order = require('./models/Order');
 const JWT_SECRET = 'pavanydg'
-const cors = require("cors")
+const cors = require("cors");
+const Payment = require('./models/Payment');
 
 const app = express();
 const port = 3001;
@@ -228,6 +229,12 @@ app.post('/order/:tid', async (req, res) => {
       quantity: ticket.quantity - order_quantity,
     });
 
+    const payment = await Payment.create({
+      oid: order.oid, // Assuming the `order` object has an `id` field
+      pdate: new Date(),
+      pamount: totalPrice,
+    });
+
     res.status(201).json(order);
   } catch (error) {
     console.error('Error creating order:', error);
@@ -348,7 +355,39 @@ app.get("/placingOrder/:ticketid", (req, res) => {
   });
 });
 
+app.get("/userTickets",(req,res) => {
+  const {uid} = req.query;
+  const query = "SELECT * from orders where uid=?"
+  connection.query(query,[uid],(err,result) => {
+    if (err) {
+      return res.status(500).json({ error: "Error while fetching ticket and event details" });
+    }
 
+    if (result.length === 0) {
+      return res.status(404).json({ error: "Ticket not found" });
+    }
+
+    res.status(200).json({ results: result });
+  })
+})
+
+// show tickets of a particular event 
+
+app.get("/showTickets",(req,res) => {
+  const {eid} = req.query;
+  const query = "SELECT * from tickets where event_id=?"
+  connection.query(query,[eid],(err,result) => {
+    if (err) {
+      return res.status(500).json({ error: "Error while fetching ticket and event details" });
+    }
+
+    if (result.length === 0) {
+      return res.status(404).json({ error: "Ticket not found" });
+    }
+
+    res.status(200).json({ results: result });
+  })
+})
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

@@ -124,14 +124,14 @@ const Modal = ({ isOpen, onClose, onConfirm }) => {
     if (!isOpen) return null;
   
     return (
-      <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+      <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 font-outfit">
         <div className="bg-white rounded-lg shadow-lg p-6 max-w-sm mx-auto">
-          <h2 className="text-xl font-bold mb-4">Confirm Payment</h2>
+          <h2 className="text-2xl font-bold mb-4 text-center">Confirm Payment</h2>
           <p className="mb-4">Are you sure you want to place this order?</p>
-          <div className="flex justify-end gap-4">
+          <div className="flex justify-center gap-4">
             <button
               onClick={onConfirm}
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+              className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
             >
               Confirm
             </button>

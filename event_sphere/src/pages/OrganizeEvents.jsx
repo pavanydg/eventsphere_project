@@ -4,9 +4,11 @@ import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import { EventCard } from "../components/EventCard";
 import { useNavigate } from "react-router-dom";
+import { ShowTickets } from "./ShowTickets";
 
 export const OrganizeEvents = () => {
   const [events, setEvents] = useState([]);
+  const [eventTicket,setEventTicket] = useState([])
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,7 +21,6 @@ export const OrganizeEvents = () => {
           `http://localhost:3001/getOrganizersEvents/${usid}`
         );
         setEvents(res.data.results);
-        console.log(res.data.results);
       } catch (error) {
         console.error("Error fetching events:", error);
       }
@@ -41,7 +42,6 @@ export const OrganizeEvents = () => {
       "Friday",
       "Saturday",
     ];
-
     const dayName = days[dayIndex];
 
     return (
@@ -76,7 +76,9 @@ export const OrganizeEvents = () => {
                   <div className="bg-orange-500 w-36 text-center text-white p-1 rounded-md" onClick={(e) => {
                     navigate(`/createTicket/${eve.eid}`)
                   }}>Add Tickets</div>
+                  <ShowTickets eid={eve.eid}/> 
                 </div>
+                            
               </div>
             );
           })}

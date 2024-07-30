@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const CreateEvent = () => {
   const [title, setTitle] = useState("");
@@ -10,6 +11,7 @@ export const CreateEvent = () => {
   const [date, setStartDate] = useState("");
   const [time, setStartTime] = useState("");
   const [category, setCategory] = useState("");
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,6 +40,7 @@ export const CreateEvent = () => {
         }
       );
       console.log(res.data);
+      navigate("/organize")
     } catch (err) {
       console.log(err);
     }

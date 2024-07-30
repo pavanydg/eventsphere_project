@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export const CreateTicket = () => {
   const { eventId } = useParams();
@@ -8,6 +8,7 @@ export const CreateTicket = () => {
   const [ticket_description, setticketDescription] = useState("");
   const [price, setPrice] = useState(0);
   const [quantity, setQuantiy] = useState(0);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,6 +21,8 @@ export const CreateTicket = () => {
     try {
       const res = await axios.post(`http://localhost:3001/events/tickets/${eventId}`,ticketData);
       console.log(res.data);
+      navigate(`/organize`)
+      
     } catch (err) {
       console.error(err);
     }

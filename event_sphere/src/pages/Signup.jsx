@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const Signup = () => {
   const [username, setUsernmae] = useState("");
@@ -8,6 +9,7 @@ export const Signup = () => {
   const [phone, setPhone] = useState("");
   const [option, setOption] = useState("");
   const [msg,setMsg] = useState('')
+  const navigate = useNavigate();
 
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -20,6 +22,7 @@ export const Signup = () => {
         user_type: option,
         email
       });
+      navigate("/signin")
     }catch(e){
       console.log(e);
     }
